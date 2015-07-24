@@ -33,7 +33,7 @@ void delay()  // Found to be working without any delay
 	{
 	}
 }
-uint16_t counter[8]={GPIO_Pin_14,0x0008,0x0010,0x0018,0x0020,0x0028,0x0030,0x0038};
+uint16_t counter[8]={0x0,0b0001000,0b0010000,0b0011000,0b0100000,0b0101000,0b0110000,0b0111000};
 void DisplayOn();
 void SetY(uint16_t Ypins);
 void SetPage(uint16_t Pagepins);
@@ -63,16 +63,16 @@ int main(void)
 {
 initializeLED();
 GPIO_SetBits(GPIOE,GPIO_Pin_13);
-clearscr(3);
+clearscr(1);
 GPIO_ResetBits(GPIOE,GPIO_Pin_12);
 GPIO_SetBits(GPIOE,GPIO_Pin_11);
 //GPIO_SetBits(GPIOE,GPIO_Pin_12);
 //clearscr(1);
 
 DisplayOn();  // Display On
-SetY(GPIO_Pin_14);
-SetPage(GPIO_Pin_14);
-StartLine(GPIO_Pin_14);
+SetY(0x0);
+SetPage(0x0);
+StartLine(0x0);
 DispNum(num0);
 DispNum(num1);
 DispNum(num2);
@@ -81,14 +81,14 @@ DispNum(num4);
 DispNum(num5);
 DispNum(num6);
 DispNum(num7);
-//clearscr(2);
+clearscr(2);
 GPIO_ResetBits(GPIOE,GPIO_Pin_11);
 
 GPIO_SetBits(GPIOE,GPIO_Pin_12);
 DisplayOn();
-SetY(GPIO_Pin_14);
-SetPage(GPIO_Pin_14);
-StartLine(GPIO_Pin_14);
+SetY(0x0);
+SetPage(0x0);
+StartLine(0x0);
 DispNum(num8);
 DispNum(num9);
 while(1)
@@ -104,7 +104,6 @@ void DisplayOn()
     GPIO_SetBits(GPIOE, GPIO_Pin_6);
     GPIO_SetBits(GPIOE, GPIO_Pin_7);
     GPIO_SetBits(GPIOE, GPIO_Pin_8);
-
     GPIO_SetBits(GPIOE, GPIO_Pin_2);
   delay();					//Display On
 
@@ -121,22 +120,40 @@ void SetY(uint16_t Ypins)  // Default 14
 {
 	GPIO_SetBits(GPIOE, GPIO_Pin_9);
 	        GPIO_SetBits(GPIOE, GPIO_Pin_5);
-	        GPIO_SetBits(GPIOE, Ypins);
+	        if(Ypins >0 )
+	        {
+	        GPIO_SetBits(GPIOE, Ypins);}
+	        else {
+	        GPIO_ResetBits(GPIOE,GPIO_Pin_3);
+	        GPIO_ResetBits(GPIOE,GPIO_Pin_4);
+	        GPIO_ResetBits(GPIOE,GPIO_Pin_5);
+	        GPIO_ResetBits(GPIOE,GPIO_Pin_6);
+	        GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+	        GPIO_ResetBits(GPIOE,GPIO_Pin_8);
+	        }
 	        GPIO_SetBits(GPIOE, GPIO_Pin_2);
 	                delay();			//Set Y address
 
 			GPIO_ResetBits(GPIOE,GPIO_Pin_2);
-			 GPIO_ResetBits(GPIOE, Ypins);
+			GPIO_ResetBits(GPIOE, Ypins);
 			GPIO_ResetBits(GPIOE,GPIO_Pin_9);
 			GPIO_ResetBits(GPIOE,GPIO_Pin_5);
 }
 void SetPage(uint16_t Pagepins) // Default 6
 {
+
 	GPIO_SetBits(GPIOE, GPIO_Pin_6);
 		    GPIO_SetBits(GPIOE, GPIO_Pin_7);
 		    GPIO_SetBits(GPIOE, GPIO_Pin_8);
 		    GPIO_SetBits(GPIOE, GPIO_Pin_10);
-		    GPIO_SetBits(GPIOE, Pagepins);
+		    if(Pagepins >0 )
+		    {
+		    GPIO_SetBits(GPIOE, Pagepins);}
+		    else {
+		    GPIO_ResetBits(GPIOE,GPIO_Pin_3);
+		    GPIO_ResetBits(GPIOE,GPIO_Pin_4);
+		    GPIO_ResetBits(GPIOE,GPIO_Pin_5);
+		    }
 		    GPIO_SetBits(GPIOE, GPIO_Pin_2);
 		                delay();	// Set page
 
@@ -151,7 +168,16 @@ void StartLine(uint16_t StartPins) // Default 14
 {
 					GPIO_SetBits(GPIOE, GPIO_Pin_9);
 					GPIO_SetBits(GPIOE, GPIO_Pin_10);
-					GPIO_SetBits(GPIOE, StartPins);
+					if(StartPins >0 ){
+					GPIO_SetBits(GPIOE, StartPins);}
+					else {
+						  GPIO_ResetBits(GPIOE,GPIO_Pin_3);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_4);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_5);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_6);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_8);
+					}
 					GPIO_SetBits(GPIOE, GPIO_Pin_2);
 					delay();			// Start Line
 
@@ -163,7 +189,18 @@ void StartLine(uint16_t StartPins) // Default 14
 void DisplayData(uint16_t DisplayPins) //Default 14
 {
 					GPIO_SetBits(GPIOE,GPIO_Pin_0);
-					GPIO_SetBits(GPIOE,DisplayPins);
+					if(DisplayPins >0){
+					GPIO_SetBits(GPIOE,DisplayPins);}
+					else {
+						  GPIO_ResetBits(GPIOE,GPIO_Pin_3);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_4);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_5);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_6);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_8);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_9);
+							        GPIO_ResetBits(GPIOE,GPIO_Pin_10);
+					}
 					GPIO_SetBits(GPIOE,GPIO_Pin_2);
 					delay();			//	Display Data
 									{
@@ -190,22 +227,23 @@ void clearscr(int n)
 		GPIO_SetBits(GPIOE,GPIO_Pin_12);
 	}
 	DisplayOn();
-	SetY(GPIO_Pin_14);
+	SetY(0x0);
 	for(k=0;k<8;k++)
 	{
 	SetPage(counter[k]);
 
-	StartLine(GPIO_Pin_14);
+	StartLine(0x0);
 	for(i=0;i<64;i++)
 	{
-	DisplayData(GPIO_Pin_14);
+	DisplayData(0x0);
 	}
 	}
 }
 void DispNum(uint16_t num[])
 {
 	int i;
-	for(i=0;i<8;i++){
+	for(i=0;i<8;i++)
+	{
 	DisplayData(num[i]);
 	}
 }
